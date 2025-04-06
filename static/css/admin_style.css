@@ -1,0 +1,22 @@
+/* admin_style.css */
+.module .title {
+    color: #007bff;  /* Синий цвет для заголовков */
+    font-weight: bold;
+}
+
+.module {
+    background-color: #f9f9f9;  /* Светлый фон для блоков */
+    border: 1px solid #ddd;  /* Светлая рамка */
+    padding: 10px;
+}
+
+.field-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.field-image img {
+    max-width: 80px;
+    max-height: 80px;
+}

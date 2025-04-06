@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Booking</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Hotel Booking</h1>
+        <nav>
+            <a href="{% url 'hotel_list' %}">Hotel List</a>
+            <a href="{% url 'register' %}">Register</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

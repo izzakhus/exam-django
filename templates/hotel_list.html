@@ -1,0 +1,31 @@
+<!-- bookings/templates/hotel_list.html -->
+
+{% load static %}  <!-- Для подключения статических файлов -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список отелей</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"> <!-- Подключаем CSS -->
+</head>
+<body>
+    <div class="container">
+        <h1>Наши Отели</h1>
+        <div class="row">
+            {% for hotel in hotels %}
+                <div class="col">
+                    <div class="hotel-card">
+                        <img src="{{ hotel.image.url }}" alt="{{ hotel.name }}">  <!-- Вывод изображения -->
+                        <div class="content">
+                            <h3>{{ hotel.name }}</h3>
+                            <p>{{ hotel.description }}</p>
+                            <a href="#" class="book-button">Забронировать</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
