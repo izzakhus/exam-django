@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegistrationForm, BookingForm
 from .models import Hotel, Room, Booking
+from django.contrib.auth.decorators import login_required
+from django.utils.dateparse import parse_date
 
 
 def hotel_list(request):
@@ -10,16 +12,47 @@ def hotel_list(request):
     return render(request, 'hotel_list.html', context)
 
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Hotel, Booking
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
 def book_hotel(request, hotel_id):
     hotel = get_object_or_404(Hotel, id=hotel_id)
     room = hotel.rooms.first()
 
     if request.method == 'POST':
-        print(f"Пользователь {request.user} забронировал отель: {hotel.name}")
-        return redirect('hotel_list')
+        check_in = parse_date(request.POST['check_in'])
+        check_out = parse_date(request.POST['check_out'])
 
-    context = {'hotel': hotel, 'room': room}
-    return render(request, 'book_hotel.html', context)
+        if check_in and check_out:
+            nights = (check_out - check_in).days
+
+            booking = Booking(
+                user=request.user,
+                room=room,
+                check_in=check_in,
+                check_out=check_out,
+                total_price=room.price_per_night * nights,
+            )
+            booking.save()
+
+            return redirect('booking_confirmation')
+
+    return render(request, 'book_hotel.html', {'hotel': hotel, 'room': room})
+
+
+def booking_confirmation(request):
+    booking = Booking.objects.last()
+    hotel = booking.room.hotel
+    room = booking.room
+
+    return render(request, 'book_confirmation.html', {
+        'booking': booking,
+        'hotel': hotel,
+        'room': room,
+    })
 
 
 def book_room(request, room_id):
