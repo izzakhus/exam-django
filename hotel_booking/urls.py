@@ -22,8 +22,8 @@ from bookings import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.hotel_list, name='hotel_list'),         # Главная страница
-    path('bookings/', include('bookings.urls')),           # Все остальные маршруты внутри bookings
+    path('', views.hotel_list, name='hotel_list'),
+    path('bookings/', include('bookings.urls')),
 ]
 
 if settings.DEBUG:

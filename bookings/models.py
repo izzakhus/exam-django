@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 
 class Hotel(models.Model):
@@ -19,10 +20,14 @@ class Hotel(models.Model):
 class Room(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='rooms')
     room_number = models.CharField(max_length=10)
-    description = models.TextField(blank=True, null=True)  # ← теперь необязательное
-    price_per_night = models.DecimalField(max_digits=8, decimal_places=2)
+    description = models.TextField(blank=True, null=True)
+    price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
     capacity = models.IntegerField()
     is_available = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = 'Комнаты'
+        verbose_name = 'Комнаты'
 
     def __str__(self):
         return f"Комната {self.room_number} — {self.hotel.name}"
@@ -38,11 +43,14 @@ class Booking(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, default='Booked')
 
+    class Meta:
+        verbose_name_plural = 'Бронирование'
+        verbose_name = 'Бронирование'
+
     def __str__(self):
         return f"Бронь: {self.room.room_number} - {self.user.username} с {self.check_in} по {self.check_out}"
 
     def save(self, *args, **kwargs):
-        # Автоматически рассчитываем общую стоимость на основе дней проживания
         nights = (self.check_out - self.check_in).days
         self.total_price = self.room.price_per_night * nights
         super(Booking, self).save(*args, **kwargs)

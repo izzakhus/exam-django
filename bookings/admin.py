@@ -15,11 +15,6 @@ class HotelAdmin(admin.ModelAdmin):
 
     image_tag.short_description = 'Image'
 
-    class Media:
-        css = {
-            'all': ('css/admin_style.css',)  # Подключаем наш файл стилей
-        }
-
 
 @admin.register(Room)
 class RoomAdmin(admin.ModelAdmin):
@@ -33,5 +28,3 @@ class BookingAdmin(admin.ModelAdmin):
     list_display = ['room', 'user', 'check_in', 'check_out', 'total_price', 'status']
     list_filter = ['status', 'check_in', 'check_out']
     search_fields = ['user__username', 'room__room_number']
-
-

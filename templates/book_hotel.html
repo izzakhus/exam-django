@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Бронирование отеля</title>
+</head>
+<body>
+    <h1>Вы бронируете отель: {{ hotel.name }}</h1>
+    <p>Описание: {{ hotel.description }}</p>
+    <p>Цена за ночь: {{ room.price_per_night }} тенге.</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit">Забронировать</button>
+    </form>
+
+    <br>
+    <a href="{% url 'hotel_list' %}">Вернуться к списку отелей</a>
+</body>
+</html>

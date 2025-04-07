@@ -1,35 +1,25 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import UserRegistrationForm, BookingForm
 from .models import Hotel, Room, Booking
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            return redirect('login')  # Перенаправляем на страницу входа
-    else:
-        form = UserRegistrationForm()
-    return render(request, 'register.html', {'form': form})
-
-
 def hotel_list(request):
     hotels = Hotel.objects.all()
-    return render(request, 'hotel_list.html', {'hotels': hotels})
+
+    context = {'hotels': hotels}
+    return render(request, 'hotel_list.html', context)
 
 
 def book_hotel(request, hotel_id):
     hotel = get_object_or_404(Hotel, id=hotel_id)
+    room = hotel.rooms.first()
 
     if request.method == 'POST':
-        # Здесь можно сделать запись в базу или что-то ещё
         print(f"Пользователь {request.user} забронировал отель: {hotel.name}")
-        return redirect('hotel_list')  # возвращаемся на главную
+        return redirect('hotel_list')
 
-    return redirect('hotel_list')
+    context = {'hotel': hotel, 'room': room}
+    return render(request, 'book_hotel.html', context)
 
 
 def book_room(request, room_id):
@@ -45,4 +35,14 @@ def book_room(request, room_id):
             return redirect('hotel_list')
     else:
         form = BookingForm(initial={'room': room})
-    return render(request, 'book_room.html', {'form': form, 'room': room})
+
+    context = {'form': form, 'room': room}
+    return render(request, 'book_room.html', context)
+
+
+def hotel_detail(request, hotel_id):
+    hotel = get_object_or_404(Hotel, id=hotel_id)
+    room = hotel.room_set.first()
+
+    context = {'room': room}
+    return render(request, 'hotel_detail.html', context)
