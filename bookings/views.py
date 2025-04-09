@@ -12,10 +12,6 @@ def hotel_list(request):
     return render(request, 'hotel_list.html', context)
 
 
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Hotel, Booking
-from django.contrib.auth.decorators import login_required
-
 
 @login_required
 def book_hotel(request, hotel_id):

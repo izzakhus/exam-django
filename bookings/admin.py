@@ -11,7 +11,7 @@ class HotelAdmin(admin.ModelAdmin):
     def image_tag(self, obj):
         if obj.image:
             return format_html('<img src="{}" width="100" />', obj.image.url)
-        return "No Image"
+        return "Нет картинки"
 
     image_tag.short_description = 'Image'
 
