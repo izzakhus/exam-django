@@ -1,12 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Подтверждение бронирования</title>
+    <title>Бронирование завершено</title>
+    <link rel="stylesheet" href="{% static 'css/confirmation.css' %}">
 </head>
 <body>
-    <h1>Ваше бронирование успешно завершено!</h1>
-    <a href="{% url 'hotel_list' %}">Вернуться к списку отелей</a>
+
+    <div class="success-container">
+        <div class="success-icon">✔</div>
+        <h1>Ваше бронирование успешно завершено!</h1>
+        <a class="back-link" href="{% url 'hotel_list' %}">Вернуться к списку отелей</a>
+    </div>
+
 </body>
 </html>
