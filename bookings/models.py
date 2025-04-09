@@ -49,7 +49,3 @@ class Booking(models.Model):
     def __str__(self):
         return f"Бронь: {self.room.room_number} - {self.user.username} с {self.check_in} по {self.check_out}"
 
-    def save(self, *args, **kwargs):
-        nights = (self.check_out - self.check_in).days
-        self.total_price = self.room.price_per_night * nights
-        super(Booking, self).save(*args, **kwargs)
